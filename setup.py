@@ -22,6 +22,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     keywords='geometry',
     package_dir={'': 'src'},
@@ -30,10 +31,10 @@ setup(
     install_requires=['numpy>=1.19'],
     extras_require={
         'dev': [
-            'pylint',
-            #'pytest>=6.2.1',
-            #'black>=19.10b0',
+            'pylint>=2.0.0',
+            'black>=19.10b0',
             #'mypy>=0.782',
+            #'pytest>=6.2.1',
         ],
     },
 )
