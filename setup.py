@@ -28,7 +28,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     python_requires='>=3.6, <4',
-    install_requires=['numpy>=1.19'],
+    install_requires=['numpy>=1.0'],
     extras_require={
         'dev': [
             'pylint>=2.0.0',
