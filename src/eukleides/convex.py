@@ -13,7 +13,7 @@ class ConvexHull:
         _dimensions = [vec.shape for vec in points]
         assert all(dim == _dimensions[0] for dim in _dimensions)
         self.points: List[np.array] = points
-        self._base: Optional[np.array] = None
+        self._base: Optional[np.array] = None  # pylint: disable=E1136
 
     @property
     def base(self) -> np.array:
