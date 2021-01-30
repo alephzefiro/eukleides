@@ -13,7 +13,7 @@ class HyperPlane:
     Affine space of codimension 1.
 
     Defined by its normal vector 'normal' and the 'constant', such that a point x belongs to the
-    hyperplane iff $normal \cdot x + constant = 0$.
+    hyperplane iff $normal \\cdot x + constant = 0$.
     """
     tol = 1e-8
 
