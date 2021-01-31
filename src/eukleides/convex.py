@@ -4,6 +4,7 @@ import logging
 
 import numpy as np
 
+from eukleides.geometry import HyperPlane
 from eukleides import gradient_updates as gu
 
 
@@ -26,6 +27,46 @@ class ConvexHull:
     def num_points(self) -> int:
         """ Number of points of the convex hull. """
         return len(self.points)
+
+
+class LinearConstraint(HyperPlane):
+    """
+    Extends the hyperplane with an extra method to check if the desired (in)equality is satisfied.
+    """
+    def __init__(self, normal: np.array, constant: float = 0.0, side: str = 'leq'):
+        super().__init__(normal, constant)
+        assert side in {'eq', 'leq', 'geq'}
+        self.side = side
+
+    def check(self, point: np.array):
+        if self.side == 'eq':
+            return self.contains(point)
+        scalar_prod = np.dot(self.normal, point)
+        if self.side == 'leq':
+            return scalar_prod <= self.constant + self.tol
+        if self.side == 'geq':
+            return scalar_prod >= self.constant - self.tol
+        raise ValueError(f'side should be eq, leq or geq, found {self.side}')
+
+
+class Polytope:
+    """ Polytope of any dimension, defined as intersection of hyperplanes or half-spaces. """
+    def __init__(self, constraints: List[LinearConstraint]):
+        self.dim = constraints[0].normal.shape
+        for constr in constraints:
+            assert constr.normal.shape == self.dim
+        self._constraints = constraints
+
+    @property
+    def constraints(self):
+        return self._constraints
+
+    def add_constraint(self, constraint: LinearConstraint):
+        assert constraint.normal.shape == self.dim
+        self._constraints.append(constraint)
+
+    def check_all(self, point: np.array):
+        return all(constr.check(point) for constr in self.constraints)
 
 
 def softmax(x: np.array) -> np.array:
