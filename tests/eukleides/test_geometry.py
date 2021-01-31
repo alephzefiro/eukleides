@@ -15,7 +15,6 @@ def test_project(horizontal_plane):
     """
     point = np.array([2.0, 6.0, 2.0])
     projection = eg.project(point, horizontal_plane)
-    print(projection)
     assert horizontal_plane.contains(projection)
     assert np.array_equal(projection, np.array([0.5, 6.0, 2.0]))
 

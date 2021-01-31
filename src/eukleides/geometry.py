@@ -39,7 +39,5 @@ def project(point: np.array, hplane: HyperPlane) -> np.array:
     p \\cdot v - t |v|^2 + c = 0
     in t to determine the intersection of the parametric line.
     """
-    print(point)
     t = (np.dot(point, hplane.normal) - hplane.constant) / np.dot(hplane.normal, hplane.normal)
-    print(t)
     return point - t * hplane.normal
