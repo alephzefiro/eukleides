@@ -33,7 +33,7 @@ setup(
         'dev': [
             'pylint>=2.0.0',
             'black>=19.10b0',
-            #'mypy>=0.782',
+            'mypy>=0.782',
             'pytest>=6.2.1',
         ],
     },
