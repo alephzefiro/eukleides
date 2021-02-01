@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-
+Point = Sequence[float]
 
 
 @dataclass
