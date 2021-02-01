@@ -14,7 +14,7 @@ def test_project(horizontal_plane):
     on random planes belong to those planes.
     """
     point = np.array([2.0, 6.0, 2.0])
-    projection = eg.project(point, horizontal_plane)
+    projection = horizontal_plane.project(point)
     assert horizontal_plane.contains(projection)
     assert np.array_equal(projection, np.array([0.5, 6.0, 2.0]))
 
@@ -22,4 +22,4 @@ def test_project(horizontal_plane):
     for _ in range(10):
         random_plane = eg.HyperPlane(np.random.random(size=(10, )), np.random.random())
         random_point = np.random.random(size=(10, ))
-        assert random_plane.contains(eg.project(random_point, random_plane))
+        assert random_plane.contains(random_plane.project(random_point))
