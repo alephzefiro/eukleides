@@ -1,5 +1,5 @@
 """ Numeric methods to implement the gradient flow for continuous optimization problems. """
-from typing import Callable
+from typing import Callable, Union
 
 import numpy as np
 
@@ -32,3 +32,43 @@ def polynomial_decrease_step(step_number: int, initial_alpha: float = 1.0, expon
     assert initial_alpha > 0.0
     assert step_number >= 0
     return initial_alpha / (1 + step_number)**exponent
+
+
+class EarlyStopper:
+    """ After a given number of attempts of increasing the objective, it stops. """
+    def __init__(self, max_fails: int = 3, direction: str = 'maximize'):
+        assert direction in {'minimize', 'maximize'}
+        self.max_fails: int = max_fails
+        self.best_objective: Union[None, float] = None  # pylint: disable=E1136
+        self.fails: int = 0
+        self.direction: str = direction
+
+    def is_better(self, new_objective: float) -> bool:
+        if self.best_objective is None:
+            raise ValueError('Best objective is still None, cannot compare.')
+        if self.direction == 'maximize':
+            return new_objective > self.best_objective
+        if self.direction == 'minimize':
+            return self.best_objective > new_objective
+        raise ValueError(f'Optimization direction not understood: {self.direction}')
+
+    def reset(self):
+        self.fails = 0
+        self.best_objective = None
+        return self
+
+    def stop(self, new_objective: float) -> bool:
+        if self.best_objective is None:
+            self.best_objective = new_objective
+            return False
+        if self.is_better(new_objective):
+            print(f'Improved by {abs(new_objective - self.best_objective)}')
+            self.best_objective = new_objective
+            self.fails = 0
+        else:
+            print(f'No improvement, attempt {self.fails} out of {self.max_fails}.')
+            self.fails += 1
+        if self.fails + 1 >= self.max_fails:
+            print(f'Stop: {self.max_fails} failed attempts.')
+            return True
+        return False
