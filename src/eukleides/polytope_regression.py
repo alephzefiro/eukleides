@@ -8,7 +8,7 @@ from typing import Callable
 import numpy as np
 
 from eukleides import ConvexHull
-from eukleides import gradient_updates as gu
+from eukleides import optimization as opt
 
 
 def softmax(x: np.ndarray) -> np.ndarray:
@@ -47,7 +47,7 @@ def polyreg(
     alpha: float = 1.0,
     tol: float = 1e-4,
     max_iter: int = 10000,
-    update_method: Callable = gu.euler_update,
+    update_method: Callable = opt.euler_update,
 ) -> np.ndarray:
     """
     Given the convex hull of a point, use the optimization algorithm of choice to compute the

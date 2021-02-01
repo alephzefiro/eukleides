@@ -1,12 +1,10 @@
 """
 Definition of basic elements of Euclidean geometry.
 """
-from typing import Tuple, Sequence
+from typing import Tuple
 from dataclasses import dataclass
 
 import numpy as np
-
-Point = Sequence[float]
 
 
 @dataclass
@@ -15,7 +13,7 @@ class HyperPlane:
     Affine space of codimension 1.
 
     Defined by its normal vector 'normal' and the 'constant', such that a point x belongs to the
-    hyperplane iff $normal \\cdot x = constant$.
+    hyperplane iff $normal ⋅ x = constant$.
     """
     tol = 1e-8
 
