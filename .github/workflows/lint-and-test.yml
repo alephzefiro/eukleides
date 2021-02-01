@@ -30,7 +30,7 @@ jobs:
         python -m pip install .[dev]
     - name: Lint with pylint
       run: |
-        export PYTHONPATH="src"
-        pylint src
+        cd src
+        pylint . --rcfile=../.pylintrc
     - name: Unit tests
       run: pytest tests
