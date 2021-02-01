@@ -34,7 +34,7 @@ class HyperPlane:
         scalar_product = np.dot(self.normal, point)
         return abs(scalar_product - self.constant) < self.tol
 
-    def project(self, point: np.ndarray) -> np.array:
+    def project(self, point: np.ndarray) -> np.ndarray:
         """
         Solve the equation (v is hyperplane normal vector and c the constant term)
         p \\cdot v - t |v|^2 + c = 0

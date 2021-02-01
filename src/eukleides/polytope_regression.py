@@ -11,12 +11,12 @@ from eukleides import ConvexHull
 from eukleides import gradient_updates as gu
 
 
-def softmax(x: np.ndarray) -> np.array:
+def softmax(x: np.ndarray) -> np.ndarray:
     expo = np.exp(x)
     return expo / np.sum(expo)
 
 
-def get_convex_combination(hull: ConvexHull, lin_coefs: np.ndarray) -> np.array:
+def get_convex_combination(hull: ConvexHull, lin_coefs: np.ndarray) -> np.ndarray:
     coefs = softmax(lin_coefs)
     return hull.base @ coefs
 
@@ -36,7 +36,7 @@ def comb_gradient(lin_coefs: np.ndarray):
     return np.diag(coefs) - coefs.reshape((-1, 1)) @ coefs.reshape((1, -1))
 
 
-def loss_gradient(hull: ConvexHull, target: np.ndarray, lin_coefs: np.ndarray) -> np.array:
+def loss_gradient(hull: ConvexHull, target: np.ndarray, lin_coefs: np.ndarray) -> np.ndarray:
     return -(calc_error(hull, target, lin_coefs) @ hull.base) @ comb_gradient(lin_coefs)
 
 
@@ -48,7 +48,7 @@ def polyreg(
     tol: float = 1e-4,
     max_iter: int = 10000,
     update_method: Callable = gu.euler_update,
-) -> np.array:
+) -> np.ndarray:
     """
     Given the convex hull of a point, use the optimization algorithm of choice to compute the
     coefficients whose softmax determine a convex combination of the hull vertices for the given

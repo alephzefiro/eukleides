@@ -9,14 +9,14 @@ from eukleides.geometry import HyperPlane
 
 class ConvexHull:
     """ Convex hull generated as convex combination of a finite set of points. """
-    def __init__(self, points: List[np.array]):
+    def __init__(self, points: List[np.ndarray]):
         _dimensions = [vec.shape for vec in points]
         assert all(dim == _dimensions[0] for dim in _dimensions)
-        self.points: List[np.array] = points
-        self._base: Optional[np.array] = None  # pylint: disable=E1136
+        self.points: List[np.ndarray] = points
+        self._base: Optional[np.ndarray] = None  # pylint: disable=E1136
 
     @property
-    def base(self) -> np.array:
+    def base(self) -> np.ndarray:
         """ An array with all the points stacked, where the first index indexes the points. """
         if self._base is None:
             self._base = np.array(self.points).T
@@ -68,7 +68,7 @@ class Polytope:
     def contains(self, point: np.ndarray):
         return all(constr.contains(point) for constr in self.constraints)
 
-    def project(self, point: np.ndarray) -> np.array:
+    def project(self, point: np.ndarray) -> np.ndarray:
         """ Project a point into the polytope. """
         for constr in self.constraints:
             if not constr.contains(point):
