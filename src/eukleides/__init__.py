@@ -1,3 +1,2 @@
 """ Expose main classes. """
-from eukleides.geometry import HyperPlane
-from eukleides.convex import ConvexHull, LinearConstraint, Polytope
+from eukleides.geometry import HyperPlane, ConvexHull, LinearConstraint, Polytope
