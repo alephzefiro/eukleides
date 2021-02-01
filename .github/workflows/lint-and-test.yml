@@ -29,8 +29,6 @@ jobs:
         python -m pip install wheel
         python -m pip install .[dev]
     - name: Lint with pylint
-      run: |
-        cd src
-        pylint . --rcfile=../.pylintrc
+      run: pylint src
     - name: Unit tests
       run: pytest tests
