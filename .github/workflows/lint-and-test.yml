@@ -30,5 +30,7 @@ jobs:
         python -m pip install .[dev]
     - name: Lint with pylint
       run: pylint src
+    - name: type-check with mypy
+      run: mypy src
     - name: Unit tests
       run: pytest tests

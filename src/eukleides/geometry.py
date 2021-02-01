@@ -1,10 +1,12 @@
 """
 Definition of basic elements of Euclidean geometry.
 """
-from typing import Tuple
+from typing import Tuple, Sequence
 from dataclasses import dataclass
 
 import numpy as np
+
+Point = Sequence[float]
 
 
 @dataclass
@@ -17,7 +19,7 @@ class HyperPlane:
     """
     tol = 1e-8
 
-    def __init__(self, normal: np.array, constant: float = 0.0):
+    def __init__(self, normal: np.ndarray, constant: float = 0.0):
         self.normal = normal
         self.constant = constant
 
@@ -26,13 +28,13 @@ class HyperPlane:
         """ Dimension as the shape of the normal vector. To define how to treat ndarrays. """
         return self.normal.shape
 
-    def contains(self, point: np.array) -> bool:
+    def contains(self, point: np.ndarray) -> bool:
         """ Check if the point belongs to the plane. """
         assert self.dim == point.shape, f'Dimension mismatch: {self.dim} != {point.shape}'
         scalar_product = np.dot(self.normal, point)
         return abs(scalar_product - self.constant) < self.tol
 
-    def project(self, point: np.array) -> np.array:
+    def project(self, point: np.ndarray) -> np.ndarray:
         """
         Solve the equation (v is hyperplane normal vector and c the constant term)
         p \\cdot v - t |v|^2 + c = 0
