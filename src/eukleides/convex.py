@@ -32,12 +32,12 @@ class LinearConstraint(HyperPlane):
     """
     Extends the hyperplane with an extra method to check if the desired (in)equality is satisfied.
     """
-    def __init__(self, normal: np.array, constant: float = 0.0, side: str = 'leq'):
+    def __init__(self, normal: np.ndarray, constant: float = 0.0, side: str = 'leq'):
         super().__init__(normal, constant)
         assert side in {'eq', 'leq', 'geq'}
         self.side = side
 
-    def contains(self, point: np.array):
+    def contains(self, point: np.ndarray):
         if self.side == 'eq':
             return super().contains(point)
         scalar_prod = np.dot(self.normal, point)
@@ -65,10 +65,10 @@ class Polytope:
         assert constraint.normal.shape == self.dim
         self._constraints.append(constraint)
 
-    def contains(self, point: np.array):
+    def contains(self, point: np.ndarray):
         return all(constr.contains(point) for constr in self.constraints)
 
-    def project(self, point: np.array) -> np.array:
+    def project(self, point: np.ndarray) -> np.array:
         """ Project a point into the polytope. """
         for constr in self.constraints:
             if not constr.contains(point):
