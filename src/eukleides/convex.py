@@ -1,10 +1,10 @@
 """ The function polyreg implements the polytope regression. """
-from typing import List, Optional, Callable
+import logging
+from typing import List, Optional
 
 import numpy as np
 
 from eukleides.geometry import HyperPlane
-from eukleides import gradient_updates as gu
 
 
 class ConvexHull:
@@ -37,9 +37,9 @@ class LinearConstraint(HyperPlane):
         assert side in {'eq', 'leq', 'geq'}
         self.side = side
 
-    def check(self, point: np.array):
+    def contains(self, point: np.array):
         if self.side == 'eq':
-            return self.contains(point)
+            return super().contains(point)
         scalar_prod = np.dot(self.normal, point)
         if self.side == 'leq':
             return scalar_prod <= self.constant + self.tol
@@ -55,6 +55,7 @@ class Polytope:
         for constr in constraints:
             assert constr.normal.shape == self.dim
         self._constraints = constraints
+        self.logger = logging.getLogger(__name__)
 
     @property
     def constraints(self):
@@ -64,5 +65,16 @@ class Polytope:
         assert constraint.normal.shape == self.dim
         self._constraints.append(constraint)
 
-    def check_all(self, point: np.array):
-        return all(constr.check(point) for constr in self.constraints)
+    def contains(self, point: np.array):
+        return all(constr.contains(point) for constr in self.constraints)
+
+    def project(self, point: np.array) -> np.array:
+        """ Project a point into the polytope. """
+        for constr in self.constraints:
+            if not constr.contains(point):
+                prev_point = str(point)
+                point = constr.project(point)
+                self.logger.info(
+                    f'Constraint {constr} not satisfied. Project {prev_point} to {point}'
+                )
+        return point
