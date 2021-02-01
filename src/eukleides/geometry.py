@@ -32,12 +32,11 @@ class HyperPlane:
         scalar_product = np.dot(self.normal, point)
         return abs(scalar_product - self.constant) < self.tol
 
-
-def project(point: np.array, hplane: HyperPlane) -> np.array:
-    """
-    Solve the equation (v is hyperplane normal vector and c the constant term)
-    p \\cdot v - t |v|^2 + c = 0
-    in t to determine the intersection of the parametric line.
-    """
-    t = (np.dot(point, hplane.normal) - hplane.constant) / np.dot(hplane.normal, hplane.normal)
-    return point - t * hplane.normal
+    def project(self, point: np.array) -> np.array:
+        """
+        Solve the equation (v is hyperplane normal vector and c the constant term)
+        p \\cdot v - t |v|^2 + c = 0
+        in t to determine the intersection of the parametric line.
+        """
+        t = (np.dot(point, self.normal) - self.constant) / np.dot(self.normal, self.normal)
+        return point - t * self.normal
