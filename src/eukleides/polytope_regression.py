@@ -3,6 +3,7 @@ Polytope regression: find a convex combination of the vertices of the polytope t
 given point.
 """
 import logging
+from typing import Callable
 
 import numpy as np
 

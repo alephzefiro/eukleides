@@ -38,11 +38,7 @@ class HyperPlane:
         scalar_product = np.dot(self.normal, point)
         return abs(scalar_product - self.constant) < self.tol
 
-<<<<<<< HEAD
-    def project(self, point: Vector) -> Vector:
-=======
     def project(self, point: np.ndarray) -> np.array:
->>>>>>> parent of 1ab8889... Use ndarray everywhere
         """
         Solve the equation (v is hyperplane normal vector and c the constant term)
         p \\cdot v - t |v|^2 + c = 0
