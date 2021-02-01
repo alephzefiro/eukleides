@@ -4,17 +4,20 @@ from typing import Callable
 import numpy as np
 
 
-def euler_update(value: np.array, gradient_func: Callable, alpha: float):
+Gradient = Callable[[np.ndarray], np.ndarray]
+
+
+def euler_update(value: np.ndarray, gradient_func: Gradient, alpha: float):
     return alpha * gradient_func(value)
 
 
-def improved_euler_update(value: np.array, gradient_func: Callable, alpha: float):
+def improved_euler_update(value: np.ndarray, gradient_func: Gradient, alpha: float):
     first_gradient = gradient_func(value)
     second_gradient = gradient_func(value + alpha * first_gradient)
     return 0.5 * alpha * (first_gradient + second_gradient)
 
 
-def runge_kutta_update(value: np.array, gradient_func: Callable, alpha: float):
+def runge_kutta_update(value: np.ndarray, gradient_func: Gradient, alpha: float):
     first_gradient = gradient_func(value)
     second_gradient = gradient_func(value + 0.5 * alpha * first_gradient)
     third_gradient = gradient_func(value + 0.5 * alpha * second_gradient)
