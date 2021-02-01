@@ -9,7 +9,7 @@ def test_linear_constraint():
     assert lcon.contains(np.array([0.3, 0.7]))
 
 
-def test_project(horizontal_plane):
+def test_project():
     """
     Test the projection on the horizontal_plane, and also if the projection of random points
     on random planes belong to those planes.
