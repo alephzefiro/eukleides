@@ -1,5 +1,5 @@
 """ Numeric methods to implement the gradient flow for continuous optimization problems. """
-from typing import Callable
+from typing import Callable, Union
 
 import numpy as np
 
@@ -38,28 +38,26 @@ class EarlyStopper:
     """ After a given number of attempts of increasing the objective, it stops. """
     def __init__(self, max_fails: int = 3, direction: str = 'maximize'):
         assert direction in {'minimize', 'maximize'}
-        self.max_fails = max_fails
-        self.best_objective = None
-        self.fails = None
-        self.direction = direction
+        self.max_fails: int = max_fails
+        self.best_objective: Union[None, float] = None
+        self.fails: int = 0
+        self.direction: str = direction
 
-    def is_better(self, new_objective):
+    def is_better(self, new_objective: float) -> bool:
+        if self.best_objective is None:
+            raise ValueError('Best objective is still None, cannot compare.')
         if self.direction == 'maximize':
             return new_objective > self.best_objective
         if self.direction == 'minimize':
             return self.best_objective > new_objective
         raise ValueError(f'Optimization direction not understood: {self.direction}')
 
-    def start(self):
-        self.fails = 0
-        return self
-
     def reset(self):
         self.fails = 0
         self.best_objective = None
         return self
 
-    def stop(self, new_objective):
+    def stop(self, new_objective: float) -> bool:
         if self.best_objective is None:
             self.best_objective = new_objective
             return False
