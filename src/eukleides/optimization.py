@@ -39,7 +39,7 @@ class EarlyStopper:
     def __init__(self, max_fails: int = 3, direction: str = 'maximize'):
         assert direction in {'minimize', 'maximize'}
         self.max_fails: int = max_fails
-        self.best_objective: Union[None, float] = None
+        self.best_objective: Union[None, float] = None  # pylint: disable=E1136
         self.fails: int = 0
         self.direction: str = direction
 
