@@ -81,16 +81,9 @@ class Polytope:
     def contains(self, point: np.ndarray):
         return all(constr.contains(point) for constr in self.constraints)
 
-    def project(self, point: np.ndarray) -> np.ndarray:
+    def project(self, point: np.ndarray):
         """ Project a point into the polytope. """
-        for constr in self.constraints:
-            if not constr.contains(point):
-                prev_point = str(point)
-                point = constr.project(point)
-                self.logger.info(
-                    f'Constraint {constr} not satisfied. Project {prev_point} to {point}'
-                )
-        return point
+        raise NotImplementedError('Work in progress.')
 
 
 

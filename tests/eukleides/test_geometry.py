@@ -37,20 +37,16 @@ def test_constraint_project():
     on random planes belong to those planes.
     """
     point = np.array([2.0, 2.0])
-    poly = Polytope(
-        [
-            LinearConstraint(np.array([1.0, 1.0]), 1.0),
-            LinearConstraint(np.array([-1.0, 1.0]), 1.0),
-            LinearConstraint(np.array([1.0, -1.0]), 1.0),
-            LinearConstraint(np.array([-1.0, -1.0]), 1.0),
-        ]
-    )
-    assert np.array_equal(poly.project(point), np.array([0.5, 0.5]))
+    constraint = LinearConstraint(np.array([1.0, 1.0]), 1.0)
+    assert np.array_equal(constraint.project(point), np.array([0.5, 0.5]))
 
     np.random.seed(0)
     for _ in range(10):
-        random_polytope = Polytope(
-            [LinearConstraint(np.random.random(size=(10, )), np.random.random()) for _ in range(5)]
+        random_constr =  LinearConstraint(
+            2 * np.random.random(size=(10, )) - 1.0,
+            10.0 * np.random.random(),
+            side=np.random.choice(['leq', 'geq'])
         )
+
         random_point = np.random.random(size=(10, ))
-        assert random_polytope.contains(random_polytope.project(random_point))
+        assert random_constr.contains(random_constr.project(random_point))
